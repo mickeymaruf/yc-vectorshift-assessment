@@ -1,46 +1,51 @@
 import { Handle } from "reactflow";
 
-function BaseNode({ title, fields = [], handles = [], description }) {
+const BaseNode = ({ title, fields = [], handles = [], description }) => {
   return (
-    <div style={{ width: 200, height: 80, border: "1px solid black" }}>
-      <div>
-        <span>{title}</span>
-      </div>
+    <div
+      style={{
+        width: 220,
+        border: "1px solid #333",
+        borderRadius: 8,
+        padding: 10,
+        background: "#fff",
+      }}
+    >
+      <div style={{ fontWeight: "bold", marginBottom: 6 }}>{title}</div>
       {description && (
         <div>
           <span>{description}</span>
         </div>
       )}
 
-      <div>
-        {fields.map(({ label, type, value, onChange, options }, i) => (
-          <label key={i}>
-            {label}:
-            {type === "text" && (
-              <input type={type} value={value} onChange={onChange} />
-            )}
-            {type === "select" && (
+      {fields.map(({ label, value, onChange, type = "text", options }, i) => (
+        <div key={i} style={{ marginBottom: 4 }}>
+          <label>
+            {label}:{" "}
+            {type === "select" ? (
               <select value={value} onChange={onChange}>
-                {options.map((option) => (
-                  <option value={option}>{option}</option>
+                {options.map((opt) => (
+                  <option key={opt}>{opt}</option>
                 ))}
               </select>
+            ) : (
+              <input type={type} value={value} onChange={onChange} />
             )}
           </label>
-        ))}
-      </div>
+        </div>
+      ))}
 
-      {handles.map(({ id, type, position, style }) => (
+      {handles.map((h, i) => (
         <Handle
-          key={id}
-          type={type}
-          position={position}
-          id={id}
-          style={style}
+          key={i}
+          type={h.type}
+          position={h.position}
+          id={h.id}
+          style={h.style}
         />
       ))}
     </div>
   );
-}
+};
 
 export default BaseNode;
