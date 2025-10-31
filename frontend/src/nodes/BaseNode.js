@@ -28,6 +28,16 @@ const BaseNode = ({ title, fields = [], handles = [], description }) => {
                   <option key={opt}>{opt}</option>
                 ))}
               </select>
+            ) : type === "textarea" ? (
+              <textarea
+                value={value}
+                onChange={onChange}
+                ref={fields[i].ref}
+                style={{
+                  width: "100%",
+                  resize: "none",
+                }}
+              />
             ) : (
               <input type={type} value={value} onChange={onChange} />
             )}
